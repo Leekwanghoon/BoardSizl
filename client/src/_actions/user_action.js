@@ -4,7 +4,6 @@ import {
     REGISTER_USER,
     LOGOUT_USER,
     AUTH_USER,
-    FETCH_STATE
 } from './types';
 export function loginUser(dataToSubmit) {
     const request =  axios.post('/api/user/login',dataToSubmit)

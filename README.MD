@@ -9,3 +9,16 @@
 수정
 
 실행방법: yarn run dev (server)
+
+
+Page구성
+
+- Frontend(client)
+  src/_actions/types - type지정
+  src/_actions/user_action - action지정
+  src/_reducers/index -
+  
+- Backend(server)
+1)config - 실행설정 
+
+- uploads(사진 올릴경우 uploads로 경로설정됨)
