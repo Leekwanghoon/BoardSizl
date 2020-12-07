@@ -1,0 +1,43 @@
+import React from 'react';
+import styled from 'styled-components';
+import PropTypes from "prop-types";
+
+
+const Container = styled.input `
+    border:0;
+    border:${props => props.theme.boxBorder};
+    border-radius:${props => props.theme.borderRadius};
+    background-color: ${props => props.theme.bgColor};
+    width: 400px;
+    height: 35px;
+    font-size: 12px;
+    padding: 0px 15px;
+    margin: 10px auto;
+`;
+
+const Input = ({
+    placeholder,
+    required = true,
+    value,
+    onChange,
+    type="text",
+    className
+}) => <Container 
+    className={className}
+    placeholder={placeholder}
+    required={required}
+    onChange={onChange}
+    value={value}
+    type={type}
+/>
+
+Input.propTypes = {
+    placeholder: PropTypes.string.isRequired,
+    require: PropTypes.bool,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string
+}
+
+
+export default Input;
