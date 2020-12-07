@@ -33,10 +33,10 @@ export default () => (
   <Footer>
     <List>
       <ListItem>
-        <Link href="/IntroduceMySelf">I Love SIZL</Link>
+        <Link href="/">I Love SIZL</Link>
       </ListItem>
       <ListItem>
-        <Link href="#">Project 구성</Link>
+        <Link href="/">Project 구성</Link>
       </ListItem>
       <ListItem>
         <Link href="/register">회원가입 하러가기</Link>
