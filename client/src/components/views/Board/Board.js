@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import NoContent from '../../../utils/NoContent';
 
-const Title = styled.div`
+export const Title = styled.div`
     display:grid;
     grid-template-rows: 50px;
     grid-template-columns: 150px 150px 150px 150px;
     border: 1px solid black;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
     border: 1px solid black;
     display: flex;
     justify-content: center;

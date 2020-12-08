@@ -165,12 +165,37 @@ app.get("/api/board/boards_by_id", (req,res) => {
 
 app.get("/api/board/boards_by_userId",(req,res) => {
     let userId = req.query.id;
-    console.log(userId);
-    Board.find({_id: {$in: userId}})
+    Board.find({writer: userId})
         .populate('writer')
         .exec((err,board) => {
             if(err) return res.status(400).json({success:false, err})
             return res.status(200).json({success:true, board})
+        })
+})
+
+app.get("/api/board/delete",(req,res) => {
+    let boardId = req.query.id;
+    Board.deleteOne({_id: boardId})
+        .populate('writer')
+        .exec((err,board) => {
+            if(err) return res.status(400).json({success:false, err})
+            return res.status(200).json({success:true})
+        })
+})
+
+app.post("/api/edit/Myboard",(req,res) => {
+    console.log(req.body,"하하");
+    Board.findByIdAndUpdate(req.body._id,
+        {
+            title:req.body.title,
+            subTitle: req.body.title,
+            description: req.body.description,
+            images: req.body.images
+        }, function(err, docs) {
+            if(err) {
+                return res.status(400).json({success:false, err})
+            }
+            return res.status(200).json({success:true, docs})
         })
 })
 

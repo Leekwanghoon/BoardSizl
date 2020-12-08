@@ -5,8 +5,8 @@ import { XMarkIcon } from './Icons';
 
 const Wrapper = styled.div`
     position: relative;
-    top: 150px;
-    left: 100px;
+    top: 50%;
+    left: 50%;
     width:100%;
     white-space: nowrap;
     height:100%;

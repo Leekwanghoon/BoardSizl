@@ -1,19 +1,13 @@
-import React,{useState, useCallback} from 'react';
-import { withRouter } from 'react-router-dom';
+import React,{ useState, useCallback} from 'react';
 import axios from 'axios';
-import Helmet from 'react-helmet';
 import styled from 'styled-components';
-import Input from '../../../utils/Input';
-import useInput from '../../../Hooks/useInput';
+import Helmet from 'react-helmet';
 import TextareaAutosize from 'react-autosize-textarea';
+import Input from '../../../utils/Input';
 import InterativeButton from '../../../utils/InterativeButton';
 import FileUpload from '../utilsComponents/FileUpload';
+import useInput from '../../../Hooks/useInput';
 
-//생각해야할 것 props로 받는게 이득일까
-// useSelector로 받는게 이득일까
-// reflow: 하나의 dom 객체의 크기나 위치변화시 발생
-// repaint: 색상이 변경되거나 글자의 내용이 바뀌면 발생
-// react는 조화비교 알고리즘이란 것을 통해서reflow와 repaint를 줄인다.
 const Wrapper = styled.div`
     height: 80vh;
 `;
@@ -62,59 +56,55 @@ const Text = styled(TextareaAutosize)`
     }
 `;
 
-const UploadPage = (props) => {
+function BoardEdit(props) {
 
-    const uploadLoading = "";
-
+    console.log(props,"boardEdit");
+    const boardId = props.match.params.boardId;
     const {userData} = props.user;
-    
-
     const Title = useInput("");
     const SubTitle = useInput("");
     const [Description, setDescription] = useState("");
     const [images,setImages] = useState([]);
-    const Views = useInput(0);
 
     const DescriptionChangeHandler = useCallback((e) => {
         const { value } = e.target;
         setDescription(value);
     },[])
 
-   
     const updateImages = (newPath) => {
         setImages(newPath)
     }
 
     const onSubmitBoard = (e) => {
-        e.preventDefault();
-        if( !Title || !SubTitle || !Description || !images) {
-            return alert("모든 값을 입력해주세요.");
-        }
+        // e.preventDefault();
+        // if( !Title || !SubTitle || !Description || !images) {
+        //     return alert("모든 값을 입력해주세요.");
+        // }
 
         const body = {
+            _id: boardId,
             writer: userData._id,
             title: Title.value,
             subTitle: SubTitle.value,
             description: Description,
             images: images,
-            views: Views.value
         }
 
-        axios.post("/api/board", body)
+        axios.post("/api/edit/Myboard", body)
             .then(response => {
                 if(response.data.success) {
-                    alert("게시글 작성에 성공했습니다");
-                    props.history.push("/");
+                    alert("게시글 수정에 성공했습니다");
+                    props.history.goBack();
                 } else {
-                    alert("게시글 작성에 실패했습니다!")
+                    alert("게시글 수정에 실패했습니다!")
                 }
             })
     }
-    // {userData && userData.name ? userData.name : uploadLoading} 
-    return(
+
+    return (
         <Wrapper>    
             <Helmet>
-                <title>UploadPage | {userData && userData.name ? userData.name : uploadLoading}</title>
+                <title>BoardEdit | 게시글수정(edit) </title>
             </Helmet>
             <Container>
                 <Form onSubmit={onSubmitBoard}>
@@ -136,11 +126,11 @@ const UploadPage = (props) => {
                         value={Description}
                         onChange={DescriptionChangeHandler}
                     />
-                    <InterativeButton onClick={onSubmitBoard} text="게시판 등록" />
+                    <InterativeButton onClick={onSubmitBoard} text="수정" />
                 </Form>
             </Container>
         </Wrapper>
-    );
+    )
 }
 
-export default React.memo(withRouter(UploadPage));
+export default React.memo(BoardEdit);

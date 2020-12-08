@@ -12,6 +12,7 @@ import Header from "./utils/Header";
 import UploadPage from "./components/views/UploadPage/UploadPage";
 import BoardDetailPage from "./components/views/Board/BoardDetailPage";
 import BoardUpdate from "./components/views/Board/BoardUpdate";
+import BoardEdit from "./components/views/Board/BoardEdit";
 function App() {
   return (
     <ThemeProvider theme={Theme}>
@@ -26,6 +27,7 @@ function App() {
             <Route exact path="/board/upload" component={Auth(UploadPage,true)} />
             <Route exact path="/board/:boardId" component={Auth(BoardDetailPage, null)} />
             <Route exact path="/board/update/:userId" component={Auth(BoardUpdate, true)} />
+            <Route exact path="/edit/Myboard/:boardId" component={Auth(BoardEdit, true)} />
           </Switch>
         <Footer />
       </Router>
