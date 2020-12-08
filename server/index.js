@@ -152,6 +152,26 @@ app.post("/api/getBoards", (req,res) => {
         })
 })
 
-app.post("/")
+app.get("/api/board/boards_by_id", (req,res) => {
+    let boardId = req.query.id;
+
+    Board.find({_id: {$in: boardId}})
+        .populate('writer')
+        .exec((err,board) => {
+            if(err) return res.status(400).send(err);
+            return res.status(200).send(board);
+        })
+})
+
+app.get("/api/board/boards_by_userId",(req,res) => {
+    let userId = req.query.id;
+    console.log(userId);
+    Board.find({_id: {$in: userId}})
+        .populate('writer')
+        .exec((err,board) => {
+            if(err) return res.status(400).json({success:false, err})
+            return res.status(200).json({success:true, board})
+        })
+})
 
 app.listen(port, () => console.log(`listening on Port ${port}`))

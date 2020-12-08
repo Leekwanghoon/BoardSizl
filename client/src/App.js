@@ -11,6 +11,7 @@ import Footer from "./utils/Footer";
 import Header from "./utils/Header";
 import UploadPage from "./components/views/UploadPage/UploadPage";
 import BoardDetailPage from "./components/views/Board/BoardDetailPage";
+import BoardUpdate from "./components/views/Board/BoardUpdate";
 function App() {
   return (
     <ThemeProvider theme={Theme}>
@@ -24,6 +25,7 @@ function App() {
             <Route exact path="/register" component={Auth(Register,false)} />
             <Route exact path="/board/upload" component={Auth(UploadPage,true)} />
             <Route exact path="/board/:boardId" component={Auth(BoardDetailPage, null)} />
+            <Route exact path="/board/update/:userId" component={Auth(BoardUpdate, true)} />
           </Switch>
         <Footer />
       </Router>

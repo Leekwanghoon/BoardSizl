@@ -64,12 +64,13 @@ function Board({BoardInfo}) {
             {length === 0 ? <NoContent />:(<div>
                 {BoardInfo && BoardInfo.map((item,index) => {
                     return (
-                        <LinkWrap to={`/board/${item?._id}`} key={index}><BoardContentGrid>
-                            <BoardContent>{item?.writer?.name}</BoardContent>
-                            <BoardContent>{item?.title}</BoardContent>
-                            <BoardContent>{item?.createdAt}</BoardContent>
-                            <BoardContent>{item?.views}</BoardContent>
-                        </BoardContentGrid>
+                        <LinkWrap to={`/board/${item?._id}`} key={index}>
+                            <BoardContentGrid>
+                                <BoardContent>{item?.writer?.name}</BoardContent>
+                                <BoardContent>{item?.title}</BoardContent>
+                                <BoardContent>{item?.createdAt}</BoardContent>
+                                <BoardContent>{item?.views}</BoardContent>
+                            </BoardContentGrid>
                         </LinkWrap>
                     )
                 })}

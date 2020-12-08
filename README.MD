@@ -8,6 +8,5 @@
 삭제
 수정
 
-실행방법: yarn run dev (server)
-
+실행방법: yarn run dev 
 
