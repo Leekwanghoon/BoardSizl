@@ -65,7 +65,6 @@ const Text = styled(TextareaAutosize)`
 const UploadPage = (props) => {
 
     const uploadLoading = "";
-
     const {userData} = props.user;
     
 

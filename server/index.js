@@ -217,7 +217,6 @@ app.get('/api/board/length',(req,res) => {
 })
 
 app.post('/api/board/viewInc',(req,res) => {
-    console.log(req.body,"헤ㅔ");
     let views = req.body.views + 1
     Board.findByIdAndUpdate(req.body._id, 
         {

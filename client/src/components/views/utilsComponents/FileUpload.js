@@ -78,16 +78,16 @@ const FileUpload = (props) => {
                 }
             </Dropzone>
             <PageZone>
-                {filePath.map((path,index) => (
-                    <div 
+                {filePath.map((path,index) => {
+                    return (<div 
                         onClick={() => deleteHandler(path)}
                         key={index}>
                         <Image 
                             src={`http://localhost:4000/${path}`}
                             alt="해당 사진을 불러올 수 없습니다"
                         />
-                    </div>
-                ))}
+                    </div>)
+                })}
             </PageZone>
         </Wrapper>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import NoContent from '../../../utils/NoContent';
@@ -56,10 +55,6 @@ const LinkWrap = styled(Link)`
 function Board({BoardInfo,onClickPage}) {
 
     const length = BoardInfo.length;
-   
-
-    
-
     return (
         <div>
             <Title>

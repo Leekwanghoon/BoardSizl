@@ -1,10 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled,{ keyframes } from 'styled-components';
 import FatText from './FatText';
 import { WorldIcon } from './Icons';
 
-const Header = styled.div`
+const AnimationHeader = keyframes`
+    0% {
+        opacity:0
+    }
+    50% {
+        opacity:1
+    }
+    100% {
+        opacity: 0;
+    }
+`;
+
+const HeaderWrap = styled.div`
     position: relative;
     top: 40px;
     color: ${props => props.theme.blackColor};
@@ -20,14 +32,19 @@ const HeaderLink = styled(Link)`
 const HeaderText = styled(FatText)`
     margin-right:10px;
     letter-spacing: 0.55rem;
+    &:hover {
+        animation: ${AnimationHeader} 3s linear infinite;
+    }
 `;
 
 
-export default() => {
-    return (<Header>
+const Header = () => {
+    return (<HeaderWrap>
         <HeaderLink to="/">
             <HeaderText text="SIZL BOARD" size={24} />
             <WorldIcon />
         </HeaderLink>
-    </Header>);
+    </HeaderWrap>);
 }
+
+export default React.memo(Header);

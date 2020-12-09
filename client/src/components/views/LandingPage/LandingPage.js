@@ -7,6 +7,7 @@ import Helmet from "react-helmet";
 import styled from 'styled-components';
 import InterativeButton from '../../../utils/InterativeButton';
 import Board from '../Board/Board';
+import LoadingPage from '../../../utils/LoadingPage';
 
 export const Wrapper = styled.div`
     width:100%;
@@ -33,19 +34,15 @@ const Container = styled.div`
 `;
 
 
-
-
 const LandingPage = (props) => {
     
     const welcomeHelmet = "환영합니다";
 
     const dispatch = useDispatch();
+    const [Loading, setLoading] = useState(true);
     const [BoardInfo, setBoardInfo] = useState([]); //토탈정보
-    console.log(BoardInfo);
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(4);
-
-    
 
     useEffect(() => {
         let body = {
@@ -53,14 +50,14 @@ const LandingPage = (props) => {
             limit:Limit
         };
         getBoards(body);
-    },[])
+    },[Skip,Limit])
 
     const getBoards = (body) => {
         axios.post('/api/getBoards', body)
             .then(response => {
                 if(response.data.success) {
-                    console.log(response.data,"boardInfo");
                     setBoardInfo(response.data.boardInfo);
+                    setLoading(false);
                 } else {
                     alert("게시글 가져오기 실패!");
                 }
@@ -84,7 +81,6 @@ const LandingPage = (props) => {
     const onClickPage = useCallback((pageNum) => {
         console.log(pageNum,"checking")
         const pageNum1 = parseInt(pageNum) + 1;
-        console.log(typeof(pageNum1),"여기는 랜딩");
         const skip = 4*(pageNum1-2); 
         let body = {
             skip,
@@ -93,26 +89,37 @@ const LandingPage = (props) => {
         getBoards(body);
         setSkip(skip);
         
-    },[Skip,Limit])
+    },[Limit])
 
-    return(  
-        <Wrapper>
-            <Helmet>
-                <title>
-                    Board(SIZL) | {props?.user?.userData?.name ? props.user.userData.name : welcomeHelmet}
-                </title>
-            </Helmet>
-                <ButtonControl>
-                    {props?.user?.userData?.isAuth ? 
-                        <InterativeButton onClick={onLogoutButton} text="로그아웃" /> : 
-                        <InterativeButton onClick={onGoLoginPage} text="로그인으로 가기" />
-                    }
-                </ButtonControl>
-                <Container>
-                    <Board BoardInfo={BoardInfo} onClickPage={onClickPage} />
-                </Container>
-        </Wrapper>
+    return( 
+        <>
+        {!Loading ? 
+            <Wrapper>
+                <Helmet>
+                    <title>
+                        Board(SIZL) | {props?.user?.userData?.name ? props.user.userData.name : welcomeHelmet}
+                    </title>
+                </Helmet>
+                    <ButtonControl>
+                        {props?.user?.userData?.isAuth ? 
+                            <InterativeButton onClick={onLogoutButton} text="로그아웃" /> : 
+                            <InterativeButton onClick={onGoLoginPage} text="로그인으로 가기" />
+                        }
+                    </ButtonControl>
+                    <Container>
+                        <Board BoardInfo={BoardInfo} onClickPage={onClickPage} />
+                    </Container>
+            </Wrapper> 
+            :
+            <Wrapper>
+                <Helmet>
+                   <title>SIZL | Loading...</title>
+                </Helmet>
+                <LoadingPage />
+            </Wrapper>
+        }
+        </>
     );
 }
 
-export default withRouter(LandingPage);
+export default React.memo(withRouter(LandingPage));

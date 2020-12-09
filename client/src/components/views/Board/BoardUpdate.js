@@ -7,6 +7,7 @@ import InterativeButton from '../../../utils/InterativeButton';
 import { Content, Title } from './Board';
 import styled from 'styled-components';
 import NoContent from '../../../utils/NoContent';
+import LoadingPage from '../../../utils/LoadingPage';
 
 const ReWrapper = styled(Wrapper)`
     height:80vh;
@@ -55,20 +56,21 @@ const LinkWrap = styled(Link)`
 `;
 
 
-
-
-
-
 function BoardUpdate(props) {
+
+
     const pathName = props.location.pathname;
     const userId = props.match.params.userId;
+    
     const [MyBoardData, setMyBoardData] = useState([]);
+    const [Loading, setLoading] = useState(true);
     const length = MyBoardData.length;
     useEffect(() => {
         axios.get(`/api/board/boards_by_userId?id=${userId}`)
             .then(response => {
                 if(response.data.success) {
                     setMyBoardData(response.data.board);
+                    setLoading(false);
                 } else {
                     console.log("데이터 부르는데 실패");
                 }
@@ -88,9 +90,16 @@ function BoardUpdate(props) {
     }
     
     return (
+        <>
+        {Loading ? 
+            <ReWrapper>
+                <Helmet><title>Loading...</title></Helmet>
+                <LoadingPage />
+            </ReWrapper>
+        :
         <ReWrapper>
             <Helmet>
-                <title>BoardUpdate</title>
+                <title>SIZL | Update or Delete</title>
             </Helmet>
             <ReTitle>
                 <Content>작성자</Content>
@@ -125,6 +134,8 @@ function BoardUpdate(props) {
             )}
             </ReTitle>
         </ReWrapper>
+        }
+        </>
     )
 }
 
