@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -40,25 +40,19 @@ const LandingPage = (props) => {
     const welcomeHelmet = "환영합니다";
 
     const dispatch = useDispatch();
-    //객체 배열로 map못씀
-    const [BoardInfo, setBoardInfo] = useState([]);
+    const [BoardInfo, setBoardInfo] = useState([]); //토탈정보
+    console.log(BoardInfo);
+    const [Skip, setSkip] = useState(0);
+    const [Limit, setLimit] = useState(4);
+
     
-    
-    //auth에서 user데이터를 넘겨주기때문에 dispatch auth는 무시됨 코드 간결성
-    // const [Data, setData] = useState({});
-    // const name = Data.name;
-    
+
     useEffect(() => {
-        // axios.get('/api/user/auth')
-        // .then(response => {
-        //     setData(response.data);
-        // })
-
         let body = {
-
+            skip:Skip,
+            limit:Limit
         };
         getBoards(body);
-
     },[])
 
     const getBoards = (body) => {
@@ -87,6 +81,20 @@ const LandingPage = (props) => {
         props.history.push("/login");
     }
 
+    const onClickPage = useCallback((pageNum) => {
+        console.log(pageNum,"checking")
+        const pageNum1 = parseInt(pageNum) + 1;
+        console.log(typeof(pageNum1),"여기는 랜딩");
+        const skip = 4*(pageNum1-2); 
+        let body = {
+            skip,
+            limit: Limit
+        }
+        getBoards(body);
+        setSkip(skip);
+        
+    },[Skip,Limit])
+
     return(  
         <Wrapper>
             <Helmet>
@@ -101,7 +109,7 @@ const LandingPage = (props) => {
                     }
                 </ButtonControl>
                 <Container>
-                    <Board BoardInfo={BoardInfo} />
+                    <Board BoardInfo={BoardInfo} onClickPage={onClickPage} />
                 </Container>
         </Wrapper>
     );

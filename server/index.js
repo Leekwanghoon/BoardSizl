@@ -141,8 +141,15 @@ app.post("/api/board", (req, res) => {
 })
 
 app.post("/api/getBoards", (req,res) => {
+
+    console.log(req.body);
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+    let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
     Board.find()
         .populate("writer")
+        .skip(skip)
+        .limit(limit)
         .exec((err, boardInfo) => {
             if(err) return res.status(400).json({ success, err })
             return res.status(200).json({
@@ -184,7 +191,6 @@ app.get("/api/board/delete",(req,res) => {
 })
 
 app.post("/api/edit/Myboard",(req,res) => {
-    console.log(req.body,"하하");
     Board.findByIdAndUpdate(req.body._id,
         {
             title:req.body.title,
@@ -197,6 +203,18 @@ app.post("/api/edit/Myboard",(req,res) => {
             }
             return res.status(200).json({success:true, docs})
         })
+})
+
+app.get('/api/board/length',(req,res) => {
+    Board.countDocuments(function(err,count) {
+        if(err) {
+            return res.status(400).json({success:false, err})
+        } 
+        return res.status(200).json({
+            success:true,
+            count: count
+        })
+    })
 })
 
 app.listen(port, () => console.log(`listening on Port ${port}`))

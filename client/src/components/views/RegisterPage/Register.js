@@ -1,4 +1,4 @@
-import React,{ useState,useCallback } from 'react';
+import React,{ useCallback } from 'react';
 import { useDispatch } from 'react-redux'; 
 import { registerUser } from '../../../_actions/user_action';
 import { withRouter } from 'react-router-dom';
@@ -40,7 +40,7 @@ const Register = (props) => {
                     alert("Failed to sign up");
                 }
             })
-    },[Email,Password,Name,ConfirmPassword]);
+    },[Email,Password,Name,ConfirmPassword,dispatch,props.history]);
     return(
         <div>
             <Helmet>

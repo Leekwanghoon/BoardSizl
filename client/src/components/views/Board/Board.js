@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import NoContent from '../../../utils/NoContent';
+import PageNumber from '../../../utils/PageNumber';
 
 export const Title = styled.div`
     display:grid;
@@ -51,31 +52,34 @@ const LinkWrap = styled(Link)`
 `;
 
 
-function Board({BoardInfo}) {
+function Board({BoardInfo,onClickPage}) {
 
     const length = BoardInfo.length;
     return (
-        <Title>
-            <Content>작성자</Content>
-            <Content>타이틀</Content>
-            <Content>작성일자</Content>
-            <Content>조회수</Content>
-             
-            {length === 0 ? <NoContent />:(<div>
+        <div>
+            <Title>
+                <Content>작성자</Content>
+                <Content>타이틀</Content>
+                <Content>작성일자</Content>
+                <Content>조회수</Content>
+                
+                {length === 0 ? <NoContent />:(<div>
                 {BoardInfo && BoardInfo.map((item,index) => {
-                    return (
-                        <LinkWrap to={`/board/${item?._id}`} key={index}>
-                            <BoardContentGrid>
-                                <BoardContent>{item?.writer?.name}</BoardContent>
-                                <BoardContent>{item?.title}</BoardContent>
-                                <BoardContent>{item?.createdAt}</BoardContent>
-                                <BoardContent>{item?.views}</BoardContent>
-                            </BoardContentGrid>
-                        </LinkWrap>
-                    )
+                return (
+                <LinkWrap to={`/board/${item?._id}`} key={index}>
+                <BoardContentGrid>
+                <BoardContent>{item?.writer?.name}</BoardContent>
+                <BoardContent>{item?.title}</BoardContent>
+                <BoardContent>{item?.createdAt}</BoardContent>
+                <BoardContent>{item?.views}</BoardContent>
+                </BoardContentGrid>
+                </LinkWrap>
+                )
                 })}
-            </div>)}
-        </Title>
+                </div>)}
+            </Title>
+            <PageNumber BoardInfo={BoardInfo} onClickPage={onClickPage} />
+        </div>
     )
 }
 
