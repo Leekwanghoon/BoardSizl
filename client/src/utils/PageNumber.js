@@ -22,23 +22,19 @@ const Number = styled.div`
 `;
 
 
-function PageNumber({BoardInfo,onClickPage}) {
+function PageNumber({onClickPage}) {
 
     const [Count, setCount] = useState(0);
 
-    console.log(BoardInfo,"PageNumber");
     const length = Math.ceil(Count / 4);
-    console.log(length);
     
     useEffect(() => {
         axios.get('/api/board/length')
             .then(response => {
                 if(response.data.success) {
-                    console.log("length성공")
-                    console.log(response.data);
                     setCount(response.data.count);
                 } else {
-                    console.log("length실패")
+                    alert("length실패");
                 }
             })
     })

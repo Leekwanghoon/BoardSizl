@@ -161,7 +161,6 @@ app.post("/api/getBoards", (req,res) => {
 
 app.get("/api/board/boards_by_id", (req,res) => {
     let boardId = req.query.id;
-
     Board.find({_id: {$in: boardId}})
         .populate('writer')
         .exec((err,board) => {
@@ -215,6 +214,22 @@ app.get('/api/board/length',(req,res) => {
             count: count
         })
     })
+})
+
+app.post('/api/board/viewInc',(req,res) => {
+    console.log(req.body,"헤ㅔ");
+    let views = req.body.views + 1
+    Board.findByIdAndUpdate(req.body._id, 
+        {
+            views
+        }, function(err,docs) {
+            if(err) return res.status(400).json({success:false, err})
+            return res.status(200).json({
+                success: true,
+                views: docs.views
+            })
+        }
+    )
 })
 
 app.listen(port, () => console.log(`listening on Port ${port}`))

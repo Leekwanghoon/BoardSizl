@@ -68,16 +68,31 @@ function BoardDetailPage(props) {
 
     const [DetailData, setDetailData] = useState([]);
     const boardId = props.match.params.boardId;
-
+    
+    let views = DetailData[0]?.views;
     const url = DetailData[0]?.images[0];
-    console.log(url);
+    
     useEffect(() => {
         axios.get(`/api/board/boards_by_id?id=${boardId}`)
             .then(response => {
                 setDetailData(response.data);
             })
             .catch(err => alert(err))
-    },[boardId])
+
+        let body ={
+            _id: boardId,
+            views
+        }
+        axios.post('/api/board/viewInc', body)
+            .then(response => {
+                if(response.data.success) { 
+                    console.log("조회수 올리기 성공!");
+                    console.log(response.data);
+                } else {
+                    console.log("조회수올리기 실패")
+                }
+            })
+    },[boardId,views, boardId])
 
 
 
@@ -101,7 +116,6 @@ function BoardDetailPage(props) {
                 </SubContainer>
                 <MainContainer>
                     <DescriptionContainer>{DetailData[0]?.description}</DescriptionContainer>
-                    {/* <ImageContainer url={`http://localhost:4000/${url}`}></ImageContainer> */}
                     <ImageContainer src={`http://localhost:4000/${url}`} alt="이미지" />
                 </MainContainer>
             </Container>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import NoContent from '../../../utils/NoContent';
@@ -55,6 +56,10 @@ const LinkWrap = styled(Link)`
 function Board({BoardInfo,onClickPage}) {
 
     const length = BoardInfo.length;
+   
+
+    
+
     return (
         <div>
             <Title>
@@ -67,20 +72,20 @@ function Board({BoardInfo,onClickPage}) {
                 {BoardInfo && BoardInfo.map((item,index) => {
                 return (
                 <LinkWrap to={`/board/${item?._id}`} key={index}>
-                <BoardContentGrid>
-                <BoardContent>{item?.writer?.name}</BoardContent>
-                <BoardContent>{item?.title}</BoardContent>
-                <BoardContent>{item?.createdAt}</BoardContent>
-                <BoardContent>{item?.views}</BoardContent>
-                </BoardContentGrid>
+                    <BoardContentGrid>
+                        <BoardContent>{item?.writer?.name}</BoardContent>
+                        <BoardContent>{item?.title}</BoardContent>
+                        <BoardContent>{item?.createdAt}</BoardContent>
+                        <BoardContent>{item?.views}</BoardContent>
+                    </BoardContentGrid>
                 </LinkWrap>
                 )
                 })}
                 </div>)}
             </Title>
-            <PageNumber BoardInfo={BoardInfo} onClickPage={onClickPage} />
+            <PageNumber onClickPage={onClickPage} />
         </div>
     )
 }
 
-export default Board
+export default React.memo(Board);
