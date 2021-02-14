@@ -53,7 +53,7 @@ const LandingPage = (props) => {
     },[Skip,Limit])
 
     const getBoards = (body) => {
-        axios.post('/api/getBoards', body)
+        axios.post('http://www.kinggodgeneral.tk/api/getBoards', body)
             .then(response => {
                 if(response.data.success) {
                     setBoardInfo(response.data.boardInfo);

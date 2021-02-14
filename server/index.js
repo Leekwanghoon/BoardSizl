@@ -140,7 +140,7 @@ app.post("/api/board", (req, res) => {
     });
 })
 
-app.post("/api/getBoards", (req,res) => {
+app.post("http://www.kinggodgeneral.tk/api/getBoards", (req,res) => {
 
     console.log(req.body);
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
